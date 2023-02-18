@@ -1,5 +1,7 @@
 import { useState } from "react";
+
 import { gql, useMutation } from "@apollo/client";
+import { GET_USERS } from "../App";
 
 const CREATE_USER = gql`
   mutation ($name: String!) {
@@ -18,7 +20,10 @@ export function NewUserForm() {
     event.preventDefault();
     if (!name) return;
 
-    await createUser({ variables: { name } });
+    await createUser({
+      variables: { name },
+      refetchQueries: [GET_USERS],
+    });
 
     console.log(data);
   }
